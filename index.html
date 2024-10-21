@@ -1,30 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>음성 샘플</title>
 </head>
 <body>
     <h1>음성 샘플 페이지</h1>
 
-    <h2>BigVGAN</h2>
-    <table border="1">
-        <tr>
-            <th>파일 번호</th>
-            <th>재생</th>
-        </tr>
-        <!-- BigVGAN 디렉토리의 음성 파일 링크 반복 -->
-        <tr>
-            <td>1</td>
-            <td><audio controls><source src="audio_samples/bigvgan/sample1.wav" type="audio/wav"></audio></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td><audio controls><source src="audio_samples/bigvgan/sample2.wav" type="audio/wav"></audio></td>
-        </tr>
-        <!-- 파일이 30개라고 가정했을 때, 이러한 형식으로 반복 -->
-    </table>
+    <div id="audioTables"></div>
 
-    <!-- 다른 모델에 대한 테이블도 같은 방식으로 추가 -->
+    <script>
+        const models = ['gt', 'hifi', 'istft', 'bigvgan', 'ring_conformer'];
+        const numFiles = 30; // 각 디렉토리에 있는 파일 수
 
+        const container = document.getElementById('audioTables');
+
+        models.forEach(model => {
+            const modelHeader = document.createElement('h2');
+            modelHeader.textContent = model.charAt(0).toUpperCase() + model.slice(1);
+            container.appendChild(modelHeader);
+
+            const table = document.createElement('table');
+            table.border = "1";
+
+            const headerRow = table.insertRow();
+            const headerCell1 = headerRow.insertCell();
+            headerCell1.textContent = "파일 번호";
+            const headerCell2 = headerRow.insertCell();
+            headerCell2.textContent = "재생";
+
+            for (let i = 1; i <= numFiles; i++) {
+                const row = table.insertRow();
+                const cell1 = row.insertCell();
+                cell1.textContent = i;
+
+                const cell2 = row.insertCell();
+                const audio = document.createElement('audio');
+                audio.controls = true;
+                const source = document.createElement('source');
+                source.src = `audio_samples/${model}/${i}.wav`;
+                source.type = 'audio/wav';
+                audio.appendChild(source);
+                cell2.appendChild(audio);
+            }
+
+            container.appendChild(table);
+        });
+    </script>
 </body>
 </html>
