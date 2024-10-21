@@ -2,49 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>음성 샘플</title>
+    <title>Ring_VITS Demo</title>
 </head>
 <body>
-    <h1>음성 샘플 페이지</h1>
+    <h1>Ring_VITS Demo</h1>
 
     <div id="audioTables"></div>
 
     <script>
         const models = ['gt', 'hifi', 'istft', 'bigvgan', 'ring_conformer'];
         const numFiles = 30; // 각 디렉토리에 있는 파일 수
+        const textx = ["it is not possible to state with scientific certainty that a particular small group of fibers come from a certain piece of clothing",
+            "we have reached into the heart of the problem which is to provide such annual earnings for the lowest paid worker as will meet his minimum needs.",
+            "to select a sufficiently spacious piece of ground, and erect a prison which from foundations to roofs should be in conformity with the newest ideas.",
+            "it was hoped that their rulers would hire accommodation in the county prisons, and that the inferior establishments would in course of time disappear.",
+            "and this particular official took excellent care to select as residents for his own ward those most suitable from his own point of view.",
+            "The window was approximately one hundredtwenty feet away.",
+            "It is now possible for Presidents to travel the length and breadth of a land far larger than the United States",
+            "to inquire into and report upon the several jails and houses of correction in the counties, cities, and corporate towns within England and Wales",
+            "These were either satisfied with a makeshift, and modified existing buildings, without close regard to their suitability, or for a long time did nothing at all.",
+            "A number of people who resembled some of those in the photographs were placed under surveillance at the Trade Mart.",
+            "The boy declared he saw no one, and accordingly passed through without paying the toll of a penny.",
+            "But he did not like the risk of entering a room by the fireplace, and the chances of detection it offered.",
+            "the position of our Society that a work of utility might be also a work of art, if we cared to make it so.",
+            "Although all of the shots were a few inches high and to the right of the target,",
+            "nineteen dollars, ninety-five cents, plus one dollar, twenty-seven cents shipping charge, had been collected from the consignee, Hidell.",
+            "he left his wedding ring in a cup on the dresser in his room. He also left one hundred seventy dollars in a wallet in one of the dresser drawers.",
+            "There should be at least a full and fair trial given to these means of ending industrial warfare;",
+            "during which time a host of witnesses were examined, and the committee presented three separate reports,",
+            "During November the Dallas papers reported frequently on the plans for protecting the President, stressing the thoroughness of the preparations.",
+            "Two weeks pass, and at last you stand on the eastern edge of the plateau",
+            "The books and journals he was to keep were minutely specified, and his constant presence in or near the jail was insisted upon.",
+            "The bank enjoyed an excellent reputation, it had a good connection, and was supposed to be perfectly sound.",
+            "The keeper tries to appear unmoved, but his eye wanders anxiously over the combustible assembly.",
+            "There were at the moment in Newgate six convicts sentenced to death for forging wills.",
+            "The poorer prisoners were not in abject want, as in other prisons,",
+            "who was one of the first witnesses to alert the police to the Depository as the source of the shots, as has been discussed in chapter three.",
+            "There were others less successful.",
+            "Many years were to elapse before these objections should be fairly met and universally overcome.",
+            "Examination of the cartridge cases found on the sixth floor of the Depository Building",
+            "who were each required to send so large a number to Babylon, that in all there were collected no fewer than fifty thousand."
+        ]
 
         const container = document.getElementById('audioTables');
 
+        const mainTable = document.createElement('table');
+        mainTable.border = "1";
+        container.appendChild(mainTable);
+
+        const headerRow = mainTable.insertRow();
+        const descriptionHeaderCell = headerRow.insertCell();
+        descriptionHeaderCell.textContent = "Text Description";
         models.forEach(model => {
-            const modelHeader = document.createElement('h2');
-            modelHeader.textContent = model.charAt(0).toUpperCase() + model.slice(1);
-            container.appendChild(modelHeader);
+            const headerCell = headerRow.insertCell();
+            headerCell.textContent = model.charAt(0).toUpperCase() + model.slice(1);
+        });
 
-            const table = document.createElement('table');
-            table.border = "1";
-
-            const headerRow = table.insertRow();
-            const headerCell1 = headerRow.insertCell();
-            headerCell1.textContent = "파일 번호";
-            const headerCell2 = headerRow.insertCell();
-            headerCell2.textContent = "재생";
-
-            for (let i = 1; i <= numFiles; i++) {
-                const row = table.insertRow();
-                const cell1 = row.insertCell();
-                cell1.textContent = i;
-
-                const cell2 = row.insertCell();
+        texts.forEach((text, index) => {
+            const row = mainTable.insertRow();
+            const descriptionCell = row.insertCell();
+            descriptionCell.textContent = text;
+            models.forEach(model => {
+                const cell = row.insertCell();
                 const audio = document.createElement('audio');
                 audio.controls = true;
                 const source = document.createElement('source');
-                source.src = `audio_samples/${model}/${i}.wav`;
+                source.src = `audio_samples/${model}/${index + 1}.wav`; // Adjust path as needed
                 source.type = 'audio/wav';
                 audio.appendChild(source);
-                cell2.appendChild(audio);
-            }
-
-            container.appendChild(table);
+                cell.appendChild(audio);
+            });
         });
     </script>
 </body>
